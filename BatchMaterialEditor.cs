@@ -9,13 +9,13 @@ public class MaterialBatchEditor : EditorWindow
     private Vector2 scrollPosition;
     private Vector2 propertiesScroll;
     private Dictionary<string, ShaderProperty> properties = new Dictionary<string, ShaderProperty>();
-    private bool showFloatProperties = false; // Ä¬ï¿½ï¿½ï¿½Ûµï¿½
+    private bool showFloatProperties = false; // Ä¬ÈÏÕÛµþ
     private bool showColorProperties = false;
     private bool showTextureProperties = false;
     private bool showVectorProperties = false;
     private bool showBooleanProperties = false;
 
-    // ï¿½æ´¢Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ÔµÄ±à¼­×´Ì¬
+    // ´æ´¢Ã¿¸öÊôÐÔµÄ±à¼­×´Ì¬
     private Dictionary<string, bool> propertyEdited = new Dictionary<string, bool>();
 
     private class ShaderProperty
@@ -29,7 +29,7 @@ public class MaterialBatchEditor : EditorWindow
     [MenuItem("Tools/Material Batch Editor")]
     public static void ShowWindow()
     {
-        GetWindow<MaterialBatchEditor>("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à¼­ï¿½ï¿½");
+        GetWindow<MaterialBatchEditor>("²ÄÖÊÅúÁ¿±à¼­Æ÷");
     }
 
     void OnGUI()
@@ -37,22 +37,22 @@ public class MaterialBatchEditor : EditorWindow
         GUILayout.Space(10);
         
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-        GUILayout.Label("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à¼­ï¿½ï¿½", EditorStyles.boldLabel);
-        GUILayout.Label("ï¿½Ï·Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½", EditorStyles.miniLabel);
+        GUILayout.Label("²ÄÖÊÅúÁ¿±à¼­Æ÷", EditorStyles.boldLabel);
+        GUILayout.Label("ÍÏ·Å²ÄÖÊÇòµ½ÏÂ·½ÇøÓò½øÐÐÅúÁ¿ÐÞ¸Ä", EditorStyles.miniLabel);
         EditorGUILayout.EndVertical();
         
         GUILayout.Space(10);
         
         Rect dropArea = GUILayoutUtility.GetRect(0, 60, GUILayout.ExpandWidth(true));
-        GUI.Box(dropArea, "ï¿½Ï·Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", EditorStyles.helpBox);
+        GUI.Box(dropArea, "ÍÏ·Å²ÄÖÊÇòµ½ÕâÀï", EditorStyles.helpBox);
         
         HandleDragAndDrop(dropArea);
         
         if (materials.Count > 0)
         {
-            GUILayout.Label($"ï¿½ï¿½Ñ¡ï¿½ï¿½ {materials.Count} ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:", EditorStyles.boldLabel);
+            GUILayout.Label($"ÒÑÑ¡Ôñ {materials.Count} ¸ö²ÄÖÊÇò:", EditorStyles.boldLabel);
             
-            // ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // ²ÄÖÊÁÐ±í¹ö¶¯ÇøÓò
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             Vector2 materialsScroll = EditorGUILayout.BeginScrollView(Vector2.zero, GUILayout.Height(100));
             foreach (var mat in materials)
@@ -60,7 +60,7 @@ public class MaterialBatchEditor : EditorWindow
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.ObjectField(mat, typeof(Material), false);
                 
-                if (GUILayout.Button("ï¿½ï¿½", GUILayout.Width(25)))
+                if (GUILayout.Button("¡Á", GUILayout.Width(25)))
                 {
                     materials.Remove(mat);
                     CacheCommonProperties();
@@ -71,7 +71,7 @@ public class MaterialBatchEditor : EditorWindow
             EditorGUILayout.EndScrollView();
             EditorGUILayout.EndVertical();
             
-            if (GUILayout.Button("ï¿½ï¿½ï¿½ï¿½Ð±ï¿½", GUILayout.Height(30)))
+            if (GUILayout.Button("Çå¿ÕÁÐ±í", GUILayout.Height(30)))
             {
                 materials.Clear();
                 properties.Clear();
@@ -82,7 +82,7 @@ public class MaterialBatchEditor : EditorWindow
             
             if (properties.Count > 0)
             {
-                // ï¿½ï¿½ï¿½Ô±à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                // ÊôÐÔ±à¼­ÇøÓòÕûÌå¹ö¶¯
                 propertiesScroll = EditorGUILayout.BeginScrollView(propertiesScroll);
                 
                 DisplayPropertyEditors();
@@ -91,12 +91,12 @@ public class MaterialBatchEditor : EditorWindow
             }
             else
             {
-                EditorGUILayout.HelpBox("Ã»ï¿½Ð¼ï¿½âµ½ï¿½ï¿½Í¬ï¿½ï¿½Shaderï¿½ï¿½ï¿½ï¿½", MessageType.Info);
+                EditorGUILayout.HelpBox("Ã»ÓÐ¼ì²âµ½¹²Í¬µÄShaderÊôÐÔ", MessageType.Info);
             }
         }
         else
         {
-            EditorGUILayout.HelpBox("ï¿½ï¿½ï¿½Ï·Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½", MessageType.Info);
+            EditorGUILayout.HelpBox("ÇëÍÏ·Å²ÄÖÊÇòµ½ÉÏ·½ÇøÓò", MessageType.Info);
         }
     }
 
@@ -170,7 +170,7 @@ public class MaterialBatchEditor : EditorWindow
                 prop.isBoolean = IsBooleanProperty(propName, propType);
                 properties[propName] = prop;
                 
-                // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½à¼­×´Ì¬ÎªÎ´ï¿½à¼­
+                // ³õÊ¼»¯±à¼­×´Ì¬ÎªÎ´±à¼­
                 propertyEdited[propName] = false;
             }
         }
@@ -210,43 +210,43 @@ public class MaterialBatchEditor : EditorWindow
 
     void DisplayPropertyEditors()
     {
-        GUILayout.Label("Shaderï¿½ï¿½ï¿½Ô±à¼­", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox("Ö»ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ö²ï¿½ï¿½ä¡£", MessageType.Info);
+        GUILayout.Label("ShaderÊôÐÔ±à¼­", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox("Ö»ÐÞ¸ÄÄú±à¼­¹ýµÄÊôÐÔ£¨´øÂÌÉ«±ê¼Ç£©£¬ÆäËûÊôÐÔ±£³Ö²»±ä¡£", MessageType.Info);
         
-        // ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ - Ä¬ï¿½ï¿½ï¿½Ûµï¿½
-        showBooleanProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showBooleanProperties, "ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½");
+        // ²¼¶ûÖµÊôÐÔ - Ä¬ÈÏÕÛµþ
+        showBooleanProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showBooleanProperties, "²¼¶ûÖµÊôÐÔ");
         if (showBooleanProperties)
         {
             DisplayBooleanProperties();
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
         
-        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½ï¿½Å³ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½- Ä¬ï¿½ï¿½ï¿½Ûµï¿½
-        showFloatProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showFloatProperties, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+        // ¸¡µãÊôÐÔ£¨ÅÅ³ý²¼¶ûÖµ£©- Ä¬ÈÏÕÛµþ
+        showFloatProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showFloatProperties, "¸¡µãÊôÐÔ");
         if (showFloatProperties)
         {
             DisplayFloatProperties();
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
         
-        // ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½ - Ä¬ï¿½ï¿½ï¿½Ûµï¿½
-        showColorProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showColorProperties, "ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½");
+        // ÑÕÉ«ÊôÐÔ - Ä¬ÈÏÕÛµþ
+        showColorProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showColorProperties, "ÑÕÉ«ÊôÐÔ");
         if (showColorProperties)
         {
             DisplayPropertiesByType(ShaderUtil.ShaderPropertyType.Color);
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
         
-        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - Ä¬ï¿½ï¿½ï¿½Ûµï¿½
-        showVectorProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showVectorProperties, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+        // ÏòÁ¿ÊôÐÔ - Ä¬ÈÏÕÛµþ
+        showVectorProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showVectorProperties, "ÏòÁ¿ÊôÐÔ");
         if (showVectorProperties)
         {
             DisplayPropertiesByType(ShaderUtil.ShaderPropertyType.Vector);
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
         
-        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - Ä¬ï¿½ï¿½ï¿½Ûµï¿½
-        showTextureProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showTextureProperties, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+        // ÎÆÀíÊôÐÔ - Ä¬ÈÏÕÛµþ
+        showTextureProperties = EditorGUILayout.BeginFoldoutHeaderGroup(showTextureProperties, "ÎÆÀíÊôÐÔ");
         if (showTextureProperties)
         {
             DisplayPropertiesByType(ShaderUtil.ShaderPropertyType.TexEnv);
@@ -255,7 +255,7 @@ public class MaterialBatchEditor : EditorWindow
         
         GUILayout.Space(20);
         
-        if (GUILayout.Button("Ó¦ï¿½ï¿½ï¿½Þ¸Äµï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½", GUILayout.Height(40)))
+        if (GUILayout.Button("Ó¦ÓÃÐÞ¸Äµ½ËùÓÐ²ÄÖÊ", GUILayout.Height(40)))
         {
             ApplyChanges();
         }
@@ -263,7 +263,7 @@ public class MaterialBatchEditor : EditorWindow
         GUILayout.Space(10);
     }
     
-    // ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
+    // ²¼¶ûÖµÊôÐÔÏÔÊ¾
     void DisplayBooleanProperties()
     {
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -274,12 +274,12 @@ public class MaterialBatchEditor : EditorWindow
             
             EditorGUILayout.BeginHorizontal();
             
-            // ï¿½ï¿½Ê¾ï¿½à¼­×´Ì¬Ö¸Ê¾ï¿½ï¿½
+            // ÏÔÊ¾±à¼­×´Ì¬Ö¸Ê¾Æ÷
             Color originalColor = GUI.color;
             if (propertyEdited[prop.name])
             {
                 GUI.color = Color.green;
-                GUILayout.Label("ï¿½ï¿½", GUILayout.Width(20));
+                GUILayout.Label("¡ñ", GUILayout.Width(20));
             }
             else
             {
@@ -289,7 +289,7 @@ public class MaterialBatchEditor : EditorWindow
             
             GUILayout.Label(prop.name, GUILayout.Width(130));
             
-            // ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Ê¹ï¿½Ãµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Î¿ï¿½ï¿½ï¿½
+            // »ñÈ¡µ±Ç°²ÄÖÊÖµ£¨Ê¹ÓÃµÚÒ»¸ö²ÄÖÊ×÷Îª²Î¿¼£©
             float currentValue = (float)GetPropertyValue(materials[0], prop.name, prop.type);
             bool currentBoolValue = Mathf.Approximately(currentValue, 1.0f);
             
@@ -301,7 +301,7 @@ public class MaterialBatchEditor : EditorWindow
                 PreviewPropertyChange(prop.name, prop.type, newBoolValue ? 1.0f : 0.0f);
             }
             
-            if (GUILayout.Button("ï¿½ï¿½ï¿½ï¿½", GUILayout.Width(60)))
+            if (GUILayout.Button("ÖØÖÃ", GUILayout.Width(60)))
             {
                 propertyEdited[prop.name] = false;
                 PreviewPropertyChange(prop.name, prop.type, prop.defaultValue);
@@ -313,7 +313,7 @@ public class MaterialBatchEditor : EditorWindow
         EditorGUILayout.EndVertical();
     }
     
-    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Å³ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
+    // ¸¡µãÊôÐÔÏÔÊ¾£¨ÅÅ³ý²¼¶ûÖµ£©
     void DisplayFloatProperties()
     {
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -328,12 +328,12 @@ public class MaterialBatchEditor : EditorWindow
             
             EditorGUILayout.BeginHorizontal();
             
-            // ï¿½ï¿½Ê¾ï¿½à¼­×´Ì¬Ö¸Ê¾ï¿½ï¿½
+            // ÏÔÊ¾±à¼­×´Ì¬Ö¸Ê¾Æ÷
             Color originalColor = GUI.color;
             if (propertyEdited[prop.name])
             {
                 GUI.color = Color.green;
-                GUILayout.Label("ï¿½ï¿½", GUILayout.Width(20));
+                GUILayout.Label("¡ñ", GUILayout.Width(20));
             }
             else
             {
@@ -343,7 +343,7 @@ public class MaterialBatchEditor : EditorWindow
             
             GUILayout.Label(prop.name, GUILayout.Width(130));
             
-            // ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Ê¹ï¿½Ãµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Î¿ï¿½ï¿½ï¿½
+            // »ñÈ¡µ±Ç°²ÄÖÊÖµ£¨Ê¹ÓÃµÚÒ»¸ö²ÄÖÊ×÷Îª²Î¿¼£©
             float currentValue = (float)GetPropertyValue(materials[0], prop.name, prop.type);
             
             float newValue = EditorGUILayout.FloatField(currentValue);
@@ -354,7 +354,7 @@ public class MaterialBatchEditor : EditorWindow
                 PreviewPropertyChange(prop.name, prop.type, newValue);
             }
             
-            if (GUILayout.Button("ï¿½ï¿½ï¿½ï¿½", GUILayout.Width(60)))
+            if (GUILayout.Button("ÖØÖÃ", GUILayout.Width(60)))
             {
                 propertyEdited[prop.name] = false;
                 PreviewPropertyChange(prop.name, prop.type, prop.defaultValue);
@@ -366,7 +366,7 @@ public class MaterialBatchEditor : EditorWindow
         EditorGUILayout.EndVertical();
     }
 
-    // Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
+    // Í¨ÓÃÊôÐÔÏÔÊ¾·½·¨
     void DisplayPropertiesByType(ShaderUtil.ShaderPropertyType type)
     {
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -377,12 +377,12 @@ public class MaterialBatchEditor : EditorWindow
             
             EditorGUILayout.BeginHorizontal();
             
-            // ï¿½ï¿½Ê¾ï¿½à¼­×´Ì¬Ö¸Ê¾ï¿½ï¿½
+            // ÏÔÊ¾±à¼­×´Ì¬Ö¸Ê¾Æ÷
             Color originalColor = GUI.color;
             if (propertyEdited[prop.name])
             {
                 GUI.color = Color.green;
-                GUILayout.Label("ï¿½ï¿½", GUILayout.Width(20));
+                GUILayout.Label("¡ñ", GUILayout.Width(20));
             }
             else
             {
@@ -392,7 +392,7 @@ public class MaterialBatchEditor : EditorWindow
             
             GUILayout.Label(prop.name, GUILayout.Width(130));
             
-            // ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Ê¹ï¿½Ãµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Î¿ï¿½ï¿½ï¿½
+            // »ñÈ¡µ±Ç°²ÄÖÊÖµ£¨Ê¹ÓÃµÚÒ»¸ö²ÄÖÊ×÷Îª²Î¿¼£©
             object currentValue = GetPropertyValue(materials[0], prop.name, prop.type);
             object newValue = currentValue;
             
@@ -411,14 +411,14 @@ public class MaterialBatchEditor : EditorWindow
                     break;
             }
             
-            // ï¿½ï¿½ï¿½Öµï¿½Ç·ï¿½Ä±ï¿½
+            // ¼ì²éÖµÊÇ·ñ¸Ä±ä
             if (!AreValuesEqual(newValue, currentValue))
             {
                 propertyEdited[prop.name] = true;
                 PreviewPropertyChange(prop.name, prop.type, newValue);
             }
             
-            if (GUILayout.Button("ï¿½ï¿½ï¿½ï¿½", GUILayout.Width(60)))
+            if (GUILayout.Button("ÖØÖÃ", GUILayout.Width(60)))
             {
                 propertyEdited[prop.name] = false;
                 PreviewPropertyChange(prop.name, prop.type, prop.defaultValue);
@@ -483,7 +483,7 @@ public class MaterialBatchEditor : EditorWindow
         if (materials.Count == 0 || properties.Count == 0)
             return;
         
-        // Ö»Ó¦ï¿½ï¿½ï¿½Ã»ï¿½ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        // Ö»Ó¦ÓÃÓÃ»§±à¼­¹ýµÄÊôÐÔ
         int editedCount = 0;
         
         foreach (var prop in properties.Values)
@@ -521,13 +521,13 @@ public class MaterialBatchEditor : EditorWindow
         
         if (editedCount > 0)
         {
-            EditorUtility.DisplayDialog("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", 
-                $"ï¿½Ñ³É¹ï¿½ï¿½Þ¸ï¿½ {materials.Count} ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ {editedCount} ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "È·ï¿½ï¿½");
+            EditorUtility.DisplayDialog("²Ù×÷Íê³É", 
+                $"ÒÑ³É¹¦ÐÞ¸Ä {materials.Count} ¸ö²ÄÖÊÇòµÄ {editedCount} ¸öÊôÐÔ", "È·¶¨");
         }
         else
         {
-            EditorUtility.DisplayDialog("ï¿½ï¿½ï¿½Þ¸ï¿½", 
-                "Ã»ï¿½Ð±à¼­ï¿½Îºï¿½ï¿½ï¿½ï¿½Ô£ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½Ê±ï¿½ï¿½Ö²ï¿½ï¿½ï¿½", "È·ï¿½ï¿½");
+            EditorUtility.DisplayDialog("ÎÞÐÞ¸Ä", 
+                "Ã»ÓÐ±à¼­ÈÎºÎÊôÐÔ£¬ËùÓÐ²ÄÖÊ±£³Ö²»±ä", "È·¶¨");
         }
     }
 }
